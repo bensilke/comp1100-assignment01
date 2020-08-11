@@ -17,7 +17,7 @@ library
   hs-source-dirs:      src
   default-language:    Haskell2010
   build-depends:       base >= 4.7 && < 5
-                     , codeworld-api >= 0.4 && < 0.6
+                     , codeworld-api >= 0.4 && < 0.7
                      , text >= 1.2 && < 1.3
   exposed-modules:     Controller
                      , Model
