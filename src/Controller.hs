@@ -25,9 +25,9 @@ handleEvent event m@(Model ss t c) =
 
       | k == " " -> undefined  -- TODO: finish polygon vertices
 
-      | k == "T" -> undefined  -- TODO: switch tool
+      | k == "T" -> nextTool  -- TODO: switch tool
 
-      | k == "C" -> undefined  -- TODO: switch colour
+      | k == "C" -> nextColour  -- TODO: switch colour
 
       | k == "Left" -> undefined  -- TODO: rotate anticlockwise
 
@@ -45,8 +45,26 @@ handleEvent event m@(Model ss t c) =
 
 -- TODO
 nextColour :: ColourName -> ColourName
-nextColour = undefined
+nextColour colour = case colour of
+  Black  -> Red
+  Red    -> Orange
+  Orange -> Yellow
+  Yellow -> Green
+  Green  -> Blue
+  Blue   -> Purple
+  Purple -> Black
 
 -- TODO
+points = [Line, Polygon, Rectangle, Circle, Ellipse, Parallelogram]
+
 nextTool :: Tool -> Tool
-nextTool = undefined
+nextTool tool 
+| map tool == points[i] points = points[i + 1]
+  Nothing       -> points[0]
+  []            -> points[0]
+--  Line          -> Polygon 
+--  Polygon       -> Rectangle
+--  Rectangle     -> Circle
+--  Circle        -> Ellipse
+--  Ellipse       -> Parallelogram
+--  Parallelogram -> Line
