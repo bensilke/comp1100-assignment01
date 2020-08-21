@@ -25,9 +25,9 @@ handleEvent event m@(Model ss t c) =
 
       | k == " " -> undefined  -- TODO: finish polygon vertices
 
-      | k == "T" -> nextTool  -- TODO: switch tool
+      | k == "T" -> undefined  -- TODO: switch tool
 
-      | k == "C" -> nextColour  -- TODO: switch colour
+      | k == "C" -> nextColour colour  -- TODO: switch colour
 
       | k == "Left" -> undefined  -- TODO: rotate anticlockwise
 
@@ -46,25 +46,31 @@ handleEvent event m@(Model ss t c) =
 -- TODO
 nextColour :: ColourName -> ColourName
 nextColour colour = case colour of
-  Black  -> Red
-  Red    -> Orange
-  Orange -> Yellow
-  Yellow -> Green
-  Green  -> Blue
-  Blue   -> Purple
-  Purple -> Black
+   Black  -> Red
+   Red    -> Orange
+   Orange -> Yellow
+   Yellow -> Green
+   Green  -> Blue
+   Blue   -> Purple
+   Purple -> Black
+   otherwise -> Nothing
 
 -- TODO
-points = [Line, Polygon, Rectangle, Circle, Ellipse, Parallelogram]
+points = [LineTool Nothing, PolygonTool Nothing, RectangleTool Nothing, CircleTool Nothing, EllipseTool Nothing, ParallelogramTool Nothing]
 
 nextTool :: Tool -> Tool
-nextTool tool 
-| map tool == points[i] points = points[i + 1]
-  Nothing       -> points[0]
-  []            -> points[0]
---  Line          -> Polygon 
---  Polygon       -> Rectangle
---  Rectangle     -> Circle
---  Circle        -> Ellipse
---  Ellipse       -> Parallelogram
---  Parallelogram -> Line
+nextTool Maybe tool(Maybe point)(Maybe point)
+-- base case 1
+| point != [] = Just tool(Just point)
+-- base case 2
+| point != Nothing = Just tool(Just point)
+-- recursive case
+| tool (point) == Tool Nothing = case tool of
+    LineTool Nothing                  -> PolygonTool []
+    PolygonTool []                    -> RectangleTool
+    RectangleTool Nothing             -> CircleTool Nothing
+    CircleTool Nothing                -> EllipseTool Nothing
+    EllipseTool Nothing               -> ParallelogramTool Nothing Nothing
+    ParallelogramTool Nothing Nothing -> LineTool Nothing
+
+
